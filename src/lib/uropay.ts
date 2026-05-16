@@ -1,25 +1,48 @@
-// IMPORTANT SECURITY RULE: UroPay API/Secret keys MUST NEVER be used here in production.
-// These functions act as bridges to your secure backend/serverless functions.
+// FRONTEND CODE - 100% SECURE
+// No secret keys are exposed here. It calls the serverless backend.
 
 export const createUroPayOrder = async (orderData: any) => {
-  console.log("1. Creating order in Firebase...", orderData);
-  // In a real app, you POST to your secure backend:
-  // const response = await fetch('/api/create-payment', { method: 'POST', body: JSON.stringify(orderData) });
-  // return response.json();
-  
-  // MOCK FLOW FOR UI DEMONSTRATION:
-  return {
-    success: true,
-    paymentUrl: `/payment-success?order_id=${orderData.orderId}`, // Simulating redirect to UroPay checkout
-    mockReference: "UP_" + Math.random().toString(36).substring(7)
-  };
+  try {
+    // Determine current origin for the redirect URL
+    const redirectUrl = `${window.location.origin}/payment-success?order_id=${orderData.orderId}`;
+
+    const response = await fetch('/api/create-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        orderId: orderData.orderId,
+        amount: orderData.amount,
+        name: orderData.userName,
+        email: orderData.email,
+        phone: orderData.phone,
+        redirectUrl: redirectUrl
+      }),
+    });
+
+    const data = await response.json();
+    return data; 
+  } catch (error) {
+    console.error("Payment init error:", error);
+    return { success: false };
+  }
 };
 
 export const verifyUroPayPayment = async (orderId: string, paymentId: string) => {
-  console.log("Verifying payment via secure backend...", { orderId, paymentId });
-  // In a real app, this calls a Cloud Function or API that uses the UroPay Secret Key
-  // to verify the payment status with UroPay servers, and THEN updates Firebase.
-  
-  // MOCK VERIFICATION:
-  return { success: true, status: 'paid' };
+  try {
+    const response = await fetch('/api/verify-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ orderId, paymentId }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Payment verification error:", error);
+    return { success: false };
+  }
 };
