@@ -1,49 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import ProductDetails from './pages/ProductDetails';
-import Checkout from './pages/Checkout';
-import PaymentSuccess from './pages/PaymentSuccess';
-import MyPurchases from './pages/MyPurchases';
-import AdminLayout from './pages/admin/AdminLayout';
-import AdminLogin from './pages/admin/AdminLogin';
-import Dashboard from './pages/admin/Dashboard';
+import React from 'react';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Toaster position="top-center" toastOptions={{ style: { background: '#1E293B', color: '#fff' } }} />
-      <div className="flex flex-col min-h-screen">
-        <Routes>
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/*" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            {/* Add other admin routes here: products, orders, settings */}
-          </Route>
-
-          {/* Public Routes */}
-          <Route path="/*" element={
-            <>
-              <Navbar />
-              <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/product/:id" element={<ProductDetails />} />
-                  <Route path="/checkout/:id" element={<Checkout />} />
-                  <Route path="/payment-success" element={<PaymentSuccess />} />
-                  <Route path="/my-purchases" element={<MyPurchases />} />
-                  {/* Add Legal Pages here */}
-                </Routes>
-              </main>
-              <Footer />
-            </>
-          } />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div className="min-h-screen bg-[#0B0D17] text-white flex flex-col items-center justify-center p-4 text-center">
+      <h1 className="text-5xl font-bold text-purple-500 mb-4">SM Store</h1>
+      <h2 className="text-2xl font-semibold text-gray-200 mb-2">Deployment Successful! 🚀</h2>
+      <p className="text-gray-400 mt-2">
+        Aapki website ka backend aur server setup ho gaya hai. <br/>
+        Ab aap ek-ek karke baaki pages (Home, Navbar, wagaira) add kar sakte hain.
+      </p>
+    </div>
   );
 }
+
 export default App;
