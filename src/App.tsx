@@ -1,16 +1,24 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen bg-[#0B0D17] text-white flex flex-col items-center justify-center p-4 text-center">
-      <h1 className="text-5xl font-bold text-purple-500 mb-4">SM Store</h1>
-      <h2 className="text-2xl font-semibold text-gray-200 mb-2">Deployment Successful! 🚀</h2>
-      <p className="text-gray-400 mt-2">
-        Aapki website ka backend aur server setup ho gaya hai. <br/>
-        Ab aap ek-ek karke baaki pages (Home, Navbar, wagaira) add kar sakte hain.
-      </p>
-    </div>
+    <BrowserRouter>
+      <div className="flex flex-col min-h-screen bg-[#0B0D17] text-white">
+        <Navbar />
+        
+        <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* Baaki ke pages (Admin, Checkout, Product) hum ek-ek karke yahan add karenge */}
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
-
-export default App;
